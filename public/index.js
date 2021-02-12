@@ -37,6 +37,13 @@ function populateTotal() {
     return total + parseInt(t.value);
   }, 0);
 
+  // reduce pending transaction amounts to a single total value
+  let pendingTotal = pendingTransactions.reduce((total, t) => {
+    return total + parseInt(t.value);
+  }, 0);
+
+  total = total + pendingTotal;
+
   let totalEl = document.querySelector("#total");
   totalEl.textContent = total;
 }
