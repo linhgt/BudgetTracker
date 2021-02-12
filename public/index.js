@@ -88,6 +88,11 @@ function populateChart() {
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
   });
 
+  //Populate chart with pending transactions
+  pendingTransactions.forEach(transaction => {
+    reversed.push(transaction)
+    });
+
   // create incremental values for chart
   let data = reversed.map(t => {
     sum += parseInt(t.value);
