@@ -52,6 +52,19 @@ function populateTable() {
   let tbody = document.querySelector("#tbody");
   tbody.innerHTML = "";
 
+  //Handle pending transactions
+  pendingTransactions.forEach(transaction => {
+    // create and populate a table row
+    let tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${transaction.name}</td>
+      <td>${transaction.value}</td>
+    `;
+
+
+    tbody.insertBefore(tr, tbody.firstChild);
+  });
+
   transactions.forEach(transaction => {
     // create and populate a table row
     let tr = document.createElement("tr");
