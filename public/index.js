@@ -1,4 +1,5 @@
 let transactions = [];
+let pendingTransactions =[];
 let myChart;
 
 fetch("/api/transaction")
@@ -8,6 +9,22 @@ fetch("/api/transaction")
   .then(data => {
     // save db data on global variable
     transactions = data;
+
+    //Check whether it is online
+    if (navigator.onLine){
+      console.log("I'm online");
+    } else {
+        console.log("I'm offline");
+        const transaction = db.transaction(["pending"], "readonly");
+        const store = transaction.objectStore("pending");
+        const allPendingRecords = store.getAll();
+        allPendingRecords.onsuccess = function() {
+          pendingTransactions = allPendingRecords.result;
+          populateTotal();
+          populateTable();
+          populateChart();
+        }
+    }
 
     populateTotal();
     populateTable();
@@ -107,6 +124,7 @@ function sendTransaction(isAdding) {
   // add to beginning of current array of data
   transactions.unshift(transaction);
 
+  
   // re-run logic to populate ui with new record
   populateChart();
   populateTable();
